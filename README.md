@@ -1,1 +1,2 @@
 # Effect-of-SCI-on-OOD
+During the past two decades, the opioid epidemic has been a major cause of concern in the U.S. There has been an increasing recognition thatits etiology is rooted in part in the social contexts that mediate substance use and access. We provide the analysis for the significance of effect size of Facebook’s social Connectedness index (SCI) on opioid overdose deaths in counties controlling for physical proximity. 
