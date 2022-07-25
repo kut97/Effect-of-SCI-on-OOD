@@ -1,0 +1,67 @@
+---
+title: "Analysis"
+author: "Kushagra"
+date: '2022-07-25'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Changing the vairbales names
+
+```{r cars}
+library(tidyverse)
+library(PeformanceAnalytics)
+colnames(final_df)[34] <- "deaths_sci_proximity_zip"
+colnames(final_df)[33] <- "deaths_physical_proximity_zip"
+
+````
+
+
+Coorelation plot to be certain about the control variables
+```{R}
+library(PerformanceAnalytics)
+correlation <- final_df[,c(31,32,33,34,35)]
+chart.Correlation(correlation, histogram = TRUE, method = "pearson")
+```
+
+Without controlling for deaths_sci_proximity_zip
+```{r}
+m1 <- lm(deaths_per_capita~ deaths_physical_proximity_zip+whites_per_capita+income_per_capita, data=final_df)
+summary(m1)
+```
+
+Controlling for deaths_sci_proximity_zip
+```{r}
+m2 <- lm(deaths_per_capita~ deaths_sci_proximity_zip +deaths_physical_proximity_zip+whites_per_capita+income_per_capita, data=final_df)
+summary(m2)
+```
+
+
+Confounding effect of deaths_sci_proximity_zip and deaths_physical_proximity_zip
+```{r}
+m5 <- lm(deaths_sci_proximity_zip~deaths_physical_proximity_zip, data=final_df)
+summary(m5)
+ggplot(final_df,aes(x=deaths_physical_proximity_zip,y=deaths_sci_proximity_zip))+ 
+  geom_point() + 
+  stat_smooth(method = "lm",
+              col = "#C42126",
+              se = TRUE,
+              size = 1)
+```
+
+Checking for the assumptions of multiple linear regression 
+```{R}
+res <- resid(m2)
+qqnorm(res)
+qqline(res)
+plot(density(res))
+```
+
+
+
+
+
+.
